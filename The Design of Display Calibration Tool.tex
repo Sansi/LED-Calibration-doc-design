@@ -1,0 +1,63 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[x11names]{xcolor}
+\usepackage[T1]{fontenc}
+\usepackage{xltxtra}
+\usepackage{xunicode}
+
+%\usepackage[top=1.2in,bottom=1.2in,left=1.2in,right=1in]{geometry} % 页边距
+\defaultfontfeatures{Mapping=tex-text}%连字号
+
+\usepackage[boldfont,slantfont,CJKchecksingle]{xeCJK} % 允许斜体和粗体
+\xeCJKsetup{PunctStyle=hangmobanjiao}
+\linespread{1.2}                       % 行间距
+\setlength{\parskip}{\baselineskip}     % 段间距
+
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
+
+\usepackage[unicode=true,colorlinks,linkcolor=blue]{hyperref} % 超链接
+\setCJKmainfont[BoldFont=XinGothic-ZhangYue W4, ItalicFont=方正粗楷简体]{方正新书宋_GBK}
+\setCJKmonofont[BoldFont=XinGothic-ZhangYue W6]{方正粗楷简体}
+\setmainfont{Noto Serif}                    % 英文衬线字体
+\setmonofont{DejaVu Sans Mono}              % 英文等宽字体
+\setsansfont{Noto Sans}                     % 英文无衬线字体
+
+
+\usepackage{graphicx}                   % 嵌入png图像
+\usepackage{longtable,tabu,booktabs}
+\usepackage{pdflscape}
+
+\usepackage{tocloft}                        % 目录
+\renewcommand\contentsname{目录}
+\renewcommand{\today}{\number\year 年 \number\month 月 \number\day 日} % 中文日期
+
+\usepackage{amsmath}
+\numberwithin{equation}{section}
+
+\usepackage{amsthm}
+
+\theoremstyle{plain}
+\newtheorem{thm}{定理}[section] % reset theorem numbering for each chapter
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{定义} % definition numbers are dependent on theorem numbers
+\newtheorem{exmp}[thm]{示例} % same for example numbers
+
+\usepackage[linecolor=red,bordercolor=red,backgroundcolor=white,textwidth=5em,textsize=footnotesize]{todonotes}
+
+\newcommand\abs[1]{\left|#1\right|}
+
+\begin{document}
+
+\input{title}
+
+\maketitle
+\clearpage
+
+\tableofcontents
+\clearpage
+\listoftodos
+
+\input{content}
+
+\end{document}

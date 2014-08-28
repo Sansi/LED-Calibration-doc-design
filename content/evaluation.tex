@@ -1,0 +1,68 @@
+\section{显示质量评价} % (fold)
+\label{sec:evaluation}
+
+目前我们关注两个方面的显示质量：\emph{亮度均匀性}和\emph{色彩准确度}。
+
+\subsection{亮度均匀性} % (fold)
+\label{sub:luminance_uniformity}
+
+\begin{defn}
+    全彩屏上一个像素$P$的\emph{亮度}$L_P$由采集到的照片中该像素范围内各个像素$p_i$在CIELAB空间$L$通道的几何平均值\footnote{相比于算术平均，几何平均对少量噪点更不敏感。}表示。
+
+    \begin{equation}
+        L_P = \left(\prod_{p_i \in P} L_{p_i} \right)^{1/n}
+    \end{equation}
+\end{defn}
+
+\begin{defn}
+    全彩屏的亮度均匀性为其中最大亮度像素与最小亮度像素的亮度比。
+
+    \begin{equation}
+        Luminance\ uniformity = \frac{L_{max}}{L_{min}}
+    \end{equation}
+\end{defn}
+
+理想的亮度均匀性为$1$。这个比值越大，表示亮度均匀性越差。
+
+这时需要一个检验标准来判定亮度均匀性是否合格，这个标准可以是$1.1$，可以是$1.3$，当然也可以是$1.05$等很严格的数值。\todo{了解这方面的现有标准}
+
+另外一种评价方式是基于区域的。将一个显示屏分为$N$个区域，每个区域求出各自的平均亮度$L_i$，所有区域有一个全局的平均亮度$L_{avg}$，此时给出一个评价标准$\delta$，要求各个区域都符合标准。
+
+\begin{equation}
+    \abs{L_i - L_{avg}} < \delta
+\end{equation}
+
+同样，这里的$\delta$如何取值与上文一样需要商榷。
+
+% subsection 亮度均匀性 (end)
+
+\subsection{色彩准确度} % (fold)
+\label{sub:color_accuracy}
+
+\begin{defn}
+    全彩屏上一个像素$P_i$的颜色$(L_{P_i},a_{P_i},b_{P_i})$为采集到的照片中该像素范围内各个像素$p_j$在CIELAB空间$L,a,b$通道上的几何平均值。
+\end{defn}
+
+\begin{defn}
+    全彩屏上一个像素$P_i$显示某个参考色时的\emph{色差}$\Delta E_{P_i,color}$为该像素的颜色与参考色的颜色由CIE DE2000\footnote{CIE DE2000很复杂，如果放宽要求可以采用CIE94甚至CIE76定义的色差。}定义的色差。
+
+\end{defn}
+
+理想情况下色差为$0$，数值越大表示偏色越严重。
+
+\begin{defn}
+    全彩屏的色彩准确度分为两项，一是平均色差$\Delta E_{avg,color}$，二是最大色差$\Delta E_{max,color}$。
+
+    \begin{equation}
+        \Delta E_{avg,color} = \frac{\sum_{i=1}^N{\Delta E_{P_i,color}}}{N}
+    \end{equation}
+    \begin{equation}
+        \Delta E_{max,color} = max\left(\sum{\Delta E_{P,color}}\right)
+    \end{equation}
+\end{defn}
+
+理想情况下色差为$0$。一般来说$\Delta E<2.3$属于被认为肉眼不可见。优化目标选择平均色差还是最大色差有待商榷。\todo{优化目标的选择也需要查一查显示器生产厂家是如何做的。}
+
+% subsection 色彩准确度 (end)
+
+% section 显示质量评价 (end)
