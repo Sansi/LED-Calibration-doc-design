@@ -1,0 +1,55 @@
+digraph "calibration process"{
+/*rankdir=LR*/
+overlap=false
+center=true
+nodesep=1.2
+
+start [label="开始"]
+start -> configure
+
+subgraph cluster_optimalconfig{
+label="找最佳拍摄参数"
+configure [shape=box, label="设置拍摄参数"]
+capture [shape=box, label="拍摄"]
+histcheck [shape=diamond, label="直方图分析"]
+
+
+configure -> capture
+capture -> histcheck:n
+histcheck:e -> configure:e [label="过亮或过暗"]
+}
+
+collection [shape=box, label="分别采集RGB"]
+histcheck -> collection [label="亮度合适"]
+
+findpixel [shape=box, label="找点"]
+
+collection -> findpixel
+
+calcbrightness [shape=box, label="算像素亮度"]
+
+findpixel -> calcbrightness
+
+genmatrix [shape=box, label="算矫正矩阵"]
+
+calcbrightness -> genmatrix
+genmatrix -> genpreview
+
+subgraph cluster_tune{
+label="迭代矫正"
+genpreview [shape=box, label="生成预览"]
+accessment [shape=diamond, label="效果评价"]
+manualtune [shape=box, label="手动调整（修边等）"]
+
+genpreview -> accessment:n
+accessment -> manualtune [label="不好"]
+manualtune -> genpreview
+
+{ rank=same; accessment; manualtune }
+}
+
+upload [shape=box, label="上传数据"]
+
+accessment -> upload [label="好"]
+
+}
