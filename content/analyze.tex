@@ -1,10 +1,33 @@
-\section{显示质量评价} % (fold)
-\label{sec:evaluation}
+% !TEX root = ../The Design of Display Calibration Tool.tex
+
+\section{图像分析} % (fold)
+\label{sec:analyze}
+
+\subsection{色彩空间} % (fold)
+\label{sub:colorspace}
+
+RGB空间不宜进行亮度分析。三个通道皆对亮度有影响，容易顾此失彼。
+
+CIELab 空间的提出就是为了解决此前色彩空间不能很好地反映肉眼感知的亮度。所以需要把采集的图像全部转换到此空间，用 L 通道的数据进行亮度矫正，（将来）用 ab 通道的数据进行色度矫正。
+
+需要 $RGB \Leftrightarrow CIELab$ 的双向转换方法。
+
+% subsection 色彩空间 (end)
+
+\subsection{找点} % (fold)
+\label{sub:findpixel}
+
+使用 Hough Circles Transform 搜索图像中的发光单元,并确定每个单元的坐标、半径。
+
+% subsection 找点 (end)
+
+\subsection{显示质量评价} % (fold)
+\label{sub:evaluation}
 
 目前我们关注两个方面的显示质量：\emph{亮度均匀性}和\emph{色彩准确度}。
 
-\subsection{亮度均匀性} % (fold)
-\label{sub:luminance_uniformity}
+\subsubsection{亮度均匀性} % (fold)
+\label{ssub:luminance_uniformity}
 
 \begin{defn}
     全彩屏上一个像素$P$的\emph{亮度}$L_P$由采集到的照片中该像素范围内各个像素$p_i$在CIELAB空间$L$通道的几何平均值\footnote{相比于算术平均，几何平均对少量噪点更不敏感。}表示。
@@ -34,10 +57,10 @@
 
 同样，这里的$\delta$如何取值与上文一样需要商榷。
 
-% subsection 亮度均匀性 (end)
+% subsubsection 亮度均匀性 (end)
 
-\subsection{色彩准确度} % (fold)
-\label{sub:color_accuracy}
+\subsubsection{色彩准确度} % (fold)
+\label{ssub:color_accuracy}
 
 \begin{defn}
     全彩屏上一个像素$P_i$的颜色$(L_{P_i},a_{P_i},b_{P_i})$为采集到的照片中该像素范围内各个像素$p_j$在CIELAB空间$L,a,b$通道上的几何平均值。
@@ -63,6 +86,8 @@
 
 理想情况下色差为$0$。一般来说$\Delta E<2.3$属于被认为肉眼不可见。优化目标选择平均色差还是最大色差有待商榷。\todo{优化目标的选择也需要查一查显示器生产厂家是如何做的。}
 
-% subsection 色彩准确度 (end)
+% subsubsection 色彩准确度 (end)
 
-% section 显示质量评价 (end)
+% subsection 显示质量评价 (end)
+
+% section 图像分析(end)

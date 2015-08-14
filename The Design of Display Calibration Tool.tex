@@ -9,6 +9,7 @@
 
 \usepackage[boldfont,slantfont,CJKchecksingle]{xeCJK} % 允许斜体和粗体
 \xeCJKsetup{PunctStyle=hangmobanjiao}
+\punctstyle{kaiming}
 \setlength{\parindent}{0cm} 				% Default is 15pt.
 \linespread{1.2}                       % 行间距
 \setlength{\parskip}{\baselineskip}    % 段间距
@@ -17,11 +18,11 @@
 \XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
 
 \usepackage[unicode=true,colorlinks,linkcolor=blue]{hyperref} % 超链接
-\setCJKmainfont[BoldFont=FZLanTingHeiS-R-GB, ItalicFont=FZKaiS-Extended]{FZJSong-Z01S}
-\setmainfont{Droid Serif}                    % 英文衬线字体
-\setmonofont{Droid Sans Mono}                % 英文等宽字体
-\setsansfont{Droid Sans}                     % 英文无衬线字体
-
+\setCJKmainfont[BoldFont=Lantinghei SC Demibold]{Heiti SC Light}
+\setCJKmonofont{Menlo}
+\setmainfont[BoldFont=Myriad Pro Bold, ItalicFont=Myriad Pro Italic]{Myriad Pro}
+\setmonofont{Menlo}
+\setsansfont{Arial}
 
 \usepackage{graphicx}                   % 嵌入png图像
 \usepackage{longtable,tabu,booktabs}
@@ -49,7 +50,13 @@
 
 \begin{document}
 
-\input{title}
+\title{\textbf{全彩屏校正软件设计}}
+
+\author{卿培\\
+        qingpei@sansitech.com
+}
+
+\date{\today}
 
 \maketitle
 \clearpage
@@ -58,6 +65,11 @@
 \clearpage
 \listoftodos
 
-\input{content}
+\include{content/overview}
+\include{content/configure}
+\include{content/caputure}
+\include{content/analyze}
+% \include{content/evaluation}
+\include{content/correction}
 
 \end{document}

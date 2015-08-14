@@ -1,3 +1,5 @@
+% !TEX root = ../The Design of Display Calibration Tool.tex
+
 \section{亮度校正} % (fold)
 \label{sec:correction}
 
@@ -5,7 +7,7 @@
 
 然后将亮度数据重排成矩阵形式 $B$。
 
-对于亮度矩阵，我们可以得到一个全像素平均亮度 $L_{overall}$。此时可以求出一个校正矩阵 $C$ 使得
+对于亮度矩阵，我们可以得到一个全像素平均亮度 $L_{overall}$ \footnote{或者如以往一样，直接以最大亮度的80\%作为校正目标，这个百分比可以再调整}。此时可以求出一个校正矩阵 $C$ 使得
 
 \begin{equation}
     C \times B = L_{overall} \cdot I

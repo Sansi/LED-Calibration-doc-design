@@ -1,0 +1,28 @@
+% !TEX root = ../The Design of Display Calibration Tool.tex
+
+\section{找最佳拍摄参数} % (fold)
+\label{sec:configure}
+
+焦距需要手动在镜头上调整，目标是被拍摄的屏幕范围应尽可能充满取景框。这里所寻找的参数是光圈快门组合。ISO应使用相机允许的最低值，以尽量避免噪点的产生。
+
+寻找最优拍摄的步骤如下：
+
+\begin{enumerate}
+	\item 根据经验，预置一个默认参数
+	\item 屏幕显示纯色，根据校正目标亮度调整，例如校正目标是50\%亮度下均匀，则使用 (127,127,127)
+	\item \label{item:cap} 采集一张图像，分析灰度直方图
+	\item 若饱和像素超过 1\% 的总像素，降低亮度，回到 \ref{item:cap}
+	\item 亮度中位数在 200 以下，提高亮度，回到 \ref{item:cap}
+	\item 饱和像素比例低于 1\%，且亮度中位数大于 200，完成\footnote{这几个步骤里的具体数值需要实际拍摄后确定，这里的数字仅为举例}
+\end{enumerate}
+
+在界面上应允许如下操作
+
+\begin{enumerate}
+	\item 人工设定参数
+	\item 跳过参数设置
+\end{enumerate}
+
+人工设定参数的选项从相机读取可用的光圈、快门之后给出。
+
+% section 找最佳拍摄参数 (end)

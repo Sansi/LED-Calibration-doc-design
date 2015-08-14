@@ -1,6 +1,16 @@
-\section{图像采集} % (fold)
+% !TEX root = ../The Design of Display Calibration Tool.tex
+
+\section{采集原始数据} % (fold)
 \label{sec:capture}
 
-待整理。
+\todo{单模块采集很直截了当。尚没有头绪的是分模块采集、间隔像素点亮分批次采集。应该需要与 V3Layout、 V3Panel 配合实现。}
 
-% section 图像采集 (end)
+希望采集到 RAW 格式图像，再通过 EDSDK 转换成图像矩阵。如果这样得不到超过 8-bit 的图像，那设法先得到 RAW 图像，再通过 \texttt{dcraw} 等第三方库来处理图像。
+
+连拍 N 张，叠加取平均值的方法是否能降低外界环境噪声的影响，待确认。
+
+这块目前没有任何进展，因为从 Linux + gphoto2 换到了 Windows + EDSDK 的组合。
+
+初步设想是先掌握 EDSDK 的使用，看能否将原先校正软件的图像采集部分替换掉。这样至少近期可以让原有系统的分辨率从1000万像素提升至2200万像素，缓解小间距校正的信噪比问题。
+
+% section 采集原始数据 (end)

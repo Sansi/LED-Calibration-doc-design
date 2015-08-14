@@ -1,55 +1,96 @@
-digraph "calibration process"{
-/*rankdir=LR*/
-overlap=false
-center=true
-nodesep=1.2
+digraph G {
+	/* graph settings*/
+/*	rankdir=LR*/
+	center=true
+	nodesep=1.2
+	node [shape=box]
+	
+	/* graph content*/
+	start [shape=doublecircle, label="开始"]
+	start -> configure
+	
+	subgraph cluster_optimalconfig{
+		label="找最佳拍摄参数"
+		
+		/* Entities */
+		configure [label="设置拍摄参数"]
+		capture [label="拍摄"]
+		histcheck [shape=diamond, label="直方图分析"]
+		
+		/* Relationships */
 
-start [label="开始"]
-start -> configure
+		configure -> capture
+		capture -> histcheck
+		histcheck:e -> configure [label="过亮或过暗"]
+		
+		/* Ranks */
+		{ rank=same; capture configure}
+	}
+	
+	subgraph cluster_capture{
+		label="采集原始数据"
+		
+		/* Entities */
+		collection [label="分别采集RGB"]
+		crop [label="人工选定范围裁剪"]
+		
+		/* Relationships */
+		histcheck -> crop [label="亮度合适"]
+		crop -> collection
+		
+		/* Ranks */
+		{ rank=same; collection crop}
+	}
+	
+	subgraph cluster_analyze{
+		label="图像分析"
+		
+		/* Entities */
+		colorspace [label="色彩空间转换至CIELab"]
+		findpixel [label="L通道找点"]
+		calcbrightness [label="L通道算像素亮度"]
+		calccolor [label="ab通道计算色坐标", style=dashed]
+		genmatrix [label="算矫正矩阵"]
+		
+		/* Relationships */
+		collection -> colorspace
+		colorspace -> findpixel
+		findpixel -> calcbrightness
+		calcbrightness -> genmatrix
+		calcbrightness -> calccolor [style=dashed]
+		calccolor -> genmatrix  [style=dashed]
+		
+		/* Ranks */
+/*		{ rank=same; colorspace findpixel}*/
+		{ rank=same; calccolor calcbrightness}
+	}
+	
+	subgraph cluster_tune{
+		label="迭代矫正"
 
-subgraph cluster_optimalconfig{
-label="找最佳拍摄参数"
-configure [shape=box, label="设置拍摄参数"]
-capture [shape=box, label="拍摄"]
-histcheck [shape=diamond, label="直方图分析"]
-
-
-configure -> capture
-capture -> histcheck:n
-histcheck:e -> configure:e [label="过亮或过暗"]
+		/* Entities */
+		genpreview [label="生成预览"]
+		accessment [shape=diamond, label="效果评价"]
+		/*manualtune [label="手动调整（修边等）"]*/
+			
+		/* Relationships */
+		genmatrix -> genpreview
+		genpreview -> accessment
+		/*accessment -> manualtune [label="不好"]*/
+		/*manualtune -> genpreview*/
+		
+		/* Ranks */		
+		{ rank=same; genpreview accessment}
+	}
+	
+	upload [label="上传数据"]
+	archive [label="导出存档"]
+	end [shape=doublecircle, label="结束"]
+	
+	accessment -> upload [label="好"]
+	accessment:e -> collection:e [label="不好"]
+	upload -> archive
+	archive -> end
+	
 }
 
-collection [shape=box, label="分别采集RGB"]
-histcheck -> collection [label="亮度合适"]
-
-findpixel [shape=box, label="找点"]
-
-collection -> findpixel
-
-calcbrightness [shape=box, label="算像素亮度"]
-
-findpixel -> calcbrightness
-
-genmatrix [shape=box, label="算矫正矩阵"]
-
-calcbrightness -> genmatrix
-genmatrix -> genpreview
-
-subgraph cluster_tune{
-label="迭代矫正"
-genpreview [shape=box, label="生成预览"]
-accessment [shape=diamond, label="效果评价"]
-manualtune [shape=box, label="手动调整（修边等）"]
-
-genpreview -> accessment:n
-accessment -> manualtune [label="不好"]
-manualtune -> genpreview
-
-{ rank=same; accessment; manualtune }
-}
-
-upload [shape=box, label="上传数据"]
-
-accessment -> upload [label="好"]
-
-}
